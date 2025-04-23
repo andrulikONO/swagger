@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Книжный магазин "Литературный мир"
+  version: 2.0.0
+  description: Полнофункциональное API для управления книгами, авторами и заказами
+
+paths:
+  /books:
+    get:
+      tags: [Книги]
+      summary: Поиск книг
+      description: Фильтрация по жанру, наличию и другим параметрам
+      parameters:
+        - $ref: '#/components/parameters/genreFilter'
+        - $ref: '#/components/parameters/inStockFilter'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/pageSizeParam'
+      responses:
+        '200':
+          description: Отфильтрованный список книг
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookListResponse'
+
+
+  /books/{bookId}:
+    get:
+      tags: [Книги]
+      summary: Получить детальную информацию о книге
+      parameters:
+        - $ref: '#/components/parameters/bookIdPath'
+      responses:
+        '200':
+          description: Детальная информация о книге
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDetails'
+    
+    delete:
+      tags: [Книги]
+      summary: Удалить книгу
+      parameters:
+        - $ref: '#/components/parameters/bookIdPath'
+      responses:
+        '200':
+          description: Книга успешно удалена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessMessage'
