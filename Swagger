@@ -50,3 +50,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessMessage'
+
+  /authors:
+    get:
+      tags: [Авторы]
+      summary: Список авторов
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/pageSizeParam'
+      responses:
+        '200':
+          description: Список авторов с пагинацией
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorListResponse'
+    
+    post:
+      tags: [Авторы]
+      summary: Добавить нового автора
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInput'
+      responses:
+        '201':
+          description: Автор успешно добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+
+  /authors/{authorId}/books:
+    get:
+      tags: [Авторы]
+      summary: Книги автора
+      parameters:
+        - $ref: '#/components/parameters/authorIdPath'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/pageSizeParam'
+      responses:
+        '200':
+          description: Список книг автора
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookListResponse'
