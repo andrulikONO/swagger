@@ -98,3 +98,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BookListResponse'
+
+
+  /orders:
+    post:
+      tags: [Заказы]
+      summary: Оформить заказ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '201':
+          description: Заказ успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+          headers:
+            Location:
+              description: Ссылка на созданный заказ
+              schema:
+                type: string
+    
+    get:
+      tags: [Заказы]
+      summary: История заказов
+      parameters:
+        - $ref: '#/components/parameters/userIdQuery'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/pageSizeParam'
+      responses:
+        '200':
+          description: Список заказов пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+
+
+  /orders/check-status:
+    get:
+      tags: [Заказы]
+      summary: Проверить статус заказа
+      parameters:
+        - $ref: '#/components/parameters/orderNumberQuery'
+      responses:
+        '200':
+          description: Текущий статус заказа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderStatus'
+        '404':
+          description: Заказ не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
